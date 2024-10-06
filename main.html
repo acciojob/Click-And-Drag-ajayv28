@@ -36,6 +36,54 @@
 
 <script>
 //Your code goes here 
+	const items = document.querySelectorAll('.item');
+  let isDragging = false;
+
+  items.forEach(item => {
+    item.addEventListener('mousedown', () => {
+      isDragging = true;
+      item.classList.add('active');
+    });
+
+    item.addEventListener('mouseup', () => {
+      isDragging = false;
+      item.classList.remove('active');
+    });
+
+    item.addEventListener('mouseleave', () => {
+      if (isDragging) {
+        isDragging = false;
+        item.classList.remove('active');
+      }
+    });
+
+    item.addEventListener('mousemove', () => {
+      if (isDragging) {
+        item.classList.add('active');
+      }
+    });
+  });
+
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+    items.forEach(item => {
+      item.classList.remove('active');
+    });
+  });
+
+  document.addEventListener('mousemove', (event) => {
+    if (isDragging) {
+      items.forEach(item => {
+        const rect = item.getBoundingClientRect();
+        if (event.clientX >= rect.left && event.clientX <= rect.right &&
+            event.clientY >= rect.top && event.clientY <= rect.bottom) {
+          item.classList.add('active');
+        } else {
+          item.classList.remove('active');
+        }
+      });
+    }
+  });
 </script>
 
   </body>
